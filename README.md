@@ -5,7 +5,7 @@ Tento projekt je zameraný na vytvorenie jednoduchého **REST API** pomocou fram
 ---
 
 ## 🔗 Dôležité odkazy
-* **Frontend (GitHub Pages):** [👉 Klikni sem pre zobrazenie webu](https://TVOJE_MENO.github.io/moj_prvy_backend/)
+* **Frontend (GitHub Pages):** [👉 Klikni sem pre zobrazenie webu]( https://j4var.github.io/PeakBackend/)
 * **Lokálne API:** `http://127.0.0.1:5000/api`
 
 ---
