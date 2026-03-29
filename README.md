@@ -1,26 +1,52 @@
-# 🚀 Môj Prvý Backend (Študentské API)
+#  Môj Prvý Backend (Študentské API)
 
-Tento projekt je zameraný na vytvorenie jednoduchého **REST API** pomocou frameworku **Flask** a jeho následné prepojenie s frontendovou aplikáciou.
+Tento projekt je zameraný na vytvorenie jednoduchého **REST API** pomocou frameworku **Flask** a jeho následné prepojenie s moderným frontendom.
 
-## 🔗 Live Demo & Odkazy
-- **Frontend (GitHub Pages):** [KLIKNI SEM PRE ZOBRAZENIE STRÁNKY](https://TVOJE_MENO.github.io/moj_prvy_backend/)
-- **Backend API (lokálne):** `http://127.0.0.1:5000/api`
+---
 
-## 📋 Funkcionalita
-- **Backend:** Flask server spravujúci databázu 10 študentov.
-- **Frontend:** Moderná SPA (Single Page Application) s "Midnight Soft Dark" dizajnom.
-- **Vyhľadávanie:** Dynamické filtrovanie v reálnom čase (meno, priezvisko, nickname).
-- **Bonus:** Pôvodné `boozeapi` bolo nahradené mojím vlastným lokálnym backendom.
+## 🔗 Dôležité odkazy
+* **Frontend (GitHub Pages):** [👉 Klikni sem pre zobrazenie webu](https://TVOJE_MENO.github.io/moj_prvy_backend/)
+* **Lokálne API:** `http://127.0.0.1:5000/api`
+
+---
+
+## 📋 Funkcionalita projektu
+* **Backend (Python/Flask):** Server spravujúci databázu 10 študentov.
+* **Frontend (HTML/JS):** Moderná aplikácia s "Midnight Soft Dark" dizajnom, ktorý šetrí oči.
+* **Dynamické vyhľadávanie:** Filtrovanie študentov v reálnom čase podľa mena, priezviska alebo prezývky.
+* **Bonusové body:** Pôvodné `boozeapi` bolo kompletne nahradené mojím vlastným lokálnym backendom.
+
+---
 
 ## 🛠️ API Endpoints
-| Endpoint | Popis |
-| :--- | :--- |
-| `/` | Uvítacia správa servera |
-| `/api` | JSON zoznam všetkých študentov |
-| `/api/student/<id>` | Detail konkrétneho študenta podľa ID |
+| Metóda | Endpoint | Popis |
+| :--- | :--- | :--- |
+| `GET` | `/` | Uvítacia správa servera |
+| `GET` | `/api` | JSON zoznam všetkých študentov |
+| `GET` | `/api/student/<id>` | Detail konkrétneho študenta podľa jeho ID |
 
-## 🚀 Inštalácia a spustenie
+---
 
-1. **Inštalácia závislostí:**
-   ```bash
-   pip install -r requirements.txt
+## 🚀 Ako to spustiť u seba?
+
+1.  **Nainštaluj potrebné knižnice:**
+    ```bash
+    pip install Flask flask-cors
+    ```
+2.  **Spusti Python server:**
+    ```bash
+    python Backend.py
+    ```
+3.  **Otvor web:**
+    Jednoducho otvor súbor `index.html` v prehliadači.
+
+---
+
+## 📂 Štruktúra súborov
+* `Backend.py` – Flask kód a databáza študentov.
+* `index.html` – Štýlový frontend s vyhľadávaním a tmavým režimom.
+* `requirements.txt` – Zoznam knižníc potrebných pre beh aplikácie.
+* `README.md` – Táto dokumentácia.
+
+---
+*Vytvorené pre školskú úlohu z informatiky - marec 2026.*
