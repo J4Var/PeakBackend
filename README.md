@@ -1,52 +1,38 @@
-#  Môj Prvý Backend (Študentské API)
+# 🎓 Študentský Portál | PeakBackend API
 
-Tento projekt je zameraný na vytvorenie jednoduchého **REST API** pomocou frameworku **Flask** a jeho následné prepojenie s moderným frontendom.
+[![GitHub Pages](https://img.shields.io/badge/Live_Demo-Online-blueviolet?style=for-the-badge&logo=github)](https://j4var.github.io/PeakBackend/)
 
----
 
-## 🔗 Dôležité odkazy
-* **Frontend (GitHub Pages):** [👉 Klikni sem pre zobrazenie webu]( https://j4var.github.io/PeakBackend/)
-* **Lokálne API:** `http://127.0.0.1:5000/api`
+Vitajte v modernom rozhraní pre správu študentskej databázy. Tento projekt demonštruje prepojenie vlastného Python backendu s responzívnym frontendom v elegantnom "Midnight" vizuále.
 
 ---
 
-## 📋 Funkcionalita projektu
-* **Backend (Python/Flask):** Server spravujúci databázu 10 študentov.
-* **Frontend (HTML/JS):** Moderná aplikácia s "Midnight Soft Dark" dizajnom, ktorý šetrí oči.
-* **Dynamické vyhľadávanie:** Filtrovanie študentov v reálnom čase podľa mena, priezviska alebo prezývky.
-* **Bonusové body:** Pôvodné `boozeapi` bolo kompletne nahradené mojím vlastným lokálnym backendom.
+## 🛰️ O Projekte
+Tento projekt je finálnym zadaním na tému **Fullstack Vývoj**. Cieľom bolo vytvoriť kompletný ekosystém: od vlastného API servera v Pythone až po dynamické klientske rozhranie, ktoré tieto dáta spracováva.
+
+### Hlavné funkcie:
+* **Vlastné Flask API:** Server bežiaci na porte 5000, ktorý poskytuje dáta vo formáte JSON.
+* **Midnight Soft Design:** Tmavé rozhranie šetriace oči s plynulými prechodmi a modernou typografiou.
+* **Full CRUD Ready:** Architektúra pripravená na prezeranie celého zoznamu aj konkrétnych detailov študentov.
+* **Live Filtering:** Okamžité vyhľadávanie v databáze bez nutnosti obnovovať stránku.
 
 ---
 
-## 🛠️ API Endpoints
-| Metóda | Endpoint | Popis |
-| :--- | :--- | :--- |
-| `GET` | `/` | Uvítacia správa servera |
-| `GET` | `/api` | JSON zoznam všetkých študentov |
-| `GET` | `/api/student/<id>` | Detail konkrétneho študenta podľa jeho ID |
+## 🛠️ Použité technológie
+* **Python (Flask)** – Srdce backendu a správa routovania.
+* **Flask-CORS** – Zabezpečenie komunikácie medzi rôznymi doménami.
+* **JavaScript (ES6)** – Asynchrónny `fetch` a dynamická manipulácia s DOM.
+* **CSS3** – Moderný Dark Mode vizuál s využitím Flexboxu a CSS Grid.
+* **GitHub Pages** – Hosting pre klientsku časť aplikácie.
 
 ---
 
-## 🚀 Ako to spustiť u seba?
+## 🧠 Ako to funguje? (Technické okienko)
 
-1.  **Nainštaluj potrebné knižnice:**
-    ```bash
-    pip install Flask flask-cors
-    ```
-2.  **Spusti Python server:**
-    ```bash
-    python Backend.py
-    ```
-3.  **Otvor web:**
-    Jednoducho otvor súbor `index.html` v prehliadači.
+Na rozdiel od predošlých zadaní, kde sme dáta čerpali z externého `boozeapi`, tento projekt využíva **môj vlastný lokálny backend**. Frontend posiela požiadavky na lokálnu adresu, prijme JSON objekt so študentmi a pomocou cyklu `forEach` vygeneruje interaktívne karty.
 
----
-
-## 📂 Štruktúra súborov
-* `Backend.py` – Flask kód a databáza študentov.
-* `index.html` – Štýlový frontend s vyhľadávaním a tmavým režimom.
-* `requirements.txt` – Zoznam knižníc potrebných pre beh aplikácie.
-* `README.md` – Táto dokumentácia.
-
----
-*Vytvorené pre školskú úlohu z informatiky - marec 2026.*
+```python
+# Ukážka backend logiky (Flask)
+@app.route('/api')
+def get_students():
+    return jsonify(databaza)
