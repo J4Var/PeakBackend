@@ -1,6 +1,6 @@
 # 🎓 Študentský Portál | PeakBackend API
 
-[![GitHub Pages](https://img.shields.io/badge/Live_Demo-Online-blueviolet?style=for-the-badge&logo=github)](https://j4var.github.io/PeakBackend/)
+[![GitHub Pages](https://img.shields.io/badge/Live_Demo-Online-blueviolet?style=for-the-badge&logo=github)]([https://j4var.github.io/PeakBackend/](https://j4var.github.io/PeakBackend/))
 
 
 Vitajte v modernom rozhraní pre správu študentskej databázy. Tento projekt demonštruje prepojenie vlastného Python backendu s responzívnym frontendom v elegantnom "Midnight" vizuále.
