@@ -1,5 +1,7 @@
 # 🎓 Študentský Portál | PeakBackend API
 
+[![GitHub Pages](https://img.shields.io/badge/Live_Demo-Online-blueviolet?style=for-the-badge&logo=github)](https://j4var.github.io/PeakBackend/StrankaStudents.html)
+
 > "Dáta sú nová ropa, ale informácie sú vedomosti."
 
 Vitajte v modernom rozhraní pre správu študentskej databázy. Tento projekt demonštruje prepojenie vlastného Python backendu s responzívnym frontendom v elegantnom "Midnight" vizuále.
