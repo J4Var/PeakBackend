@@ -1,0 +1,144 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "image": "https://pbs.twimg.com/media/EytkdiuWEAYmK_V.jpg",
+      "name": "Janka",
+      "nickname": "Dzejna",
+      "surname": "Vargov\u00e1"
+    },
+    {
+      "id": 2,
+      "image": "https://cdn.discordapp.com/attachments/1415008017010786394/1487837336246030518/hq720.jpg?ex=69ca97ff&is=69c9467f&hm=237148fa707fe0952aba50a33c044be51914feb2e1914573a263ec2babc70686&",
+      "name": "Samuel",
+      "nickname": "Samuelito",
+      "surname": "Haring"
+    },
+    {
+      "id": 3,
+      "image": "https://sw6.elbenwald.de/media/03/9a/d6/1629846657/E1050579_2.jpg",
+      "name": "Matej",
+      "nickname": "Moarari",
+      "surname": "Randziak"
+    },
+    {
+      "id": 4,
+      "image": "https://preview.redd.it/mori-is-attractive-and-heres-why-v0-bvnzwyca9kqd1.jpg?width=640&crop=smart&auto=webp&s=4cd1fa8872be343b59bf92f74281b2097bf73241",
+      "name": "Mat\u00fa\u0161",
+      "nickname": "Kutik",
+      "surname": "Bucko"
+    },
+    {
+      "id": 5,
+      "image": "https://pbs.twimg.com/media/G7WAlLvX0AAemKg.jpg",
+      "name": "Tom\u00e1\u0161",
+      "nickname": "Jurcacik",
+      "surname": "Jur\u010d\u00e1k"
+    },
+    {
+      "id": 6,
+      "image": "https://cdn.discordapp.com/attachments/1465277883777024082/1469426348115099721/Screenshot_20260206_211508_Gallery.jpg?ex=69ca312e&is=69c8dfae&hm=3158bf91b369476112530358e31bf59d55d4fbbeae0799e264a9443f8efcf3a1&",
+      "name": "Adri\u00e1n",
+      "nickname": "BigRed",
+      "surname": "\u010cervenka"
+    },
+    {
+      "id": 7,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXbhXxoPTWTWEf6rapVsCXNTkkrICigSNfVg&s",
+      "name": "Marcus",
+      "nickname": "Jew",
+      "surname": "Marti\u0161"
+    },
+    {
+      "id": 8,
+      "image": "https://api.sportnet.online/v1/ppo/futbalsfz.sk/users/68c9112594d10f7e9dd591c4/formal-photo/94387b0f-c431-49e2-b562-6a357f415c2d",
+      "name": "Martin",
+      "nickname": "Jeliman",
+      "surname": "Jelinek"
+    },
+    {
+      "id": 9,
+      "image": "https://api.sportnet.online/v1/ppo/futbalsfz.sk/users/5efee63f1b04f230d150c5ce/formal-photo/e18f5e4d-9a8d-4196-9e18-30ebf1b60dc4",
+      "name": "Milan",
+      "nickname": "Nalimovec",
+      "surname": "Kokina"
+    },
+    {
+      "id": 10,
+      "image": "https://img.hockeyslovakia.sk/Player/231280/MarkoMIHALI%C4%8CKA.jpg",
+      "name": "Marko",
+      "nickname": "Markenzie",
+      "surname": "Mihalicka"
+    },
+    {
+      "id": 11,
+      "image": "https://api.sportnet.online/v1/ppo/futbalsfz.sk/users/5d6592fd86dc8b723834ae04/formal-photo/7ab0b847-749f-42e5-af17-ca7f8a12f32d",
+      "name": "Samuel",
+      "nickname": "Samis",
+      "surname": "Uhr\u00edk"
+    },
+    {
+      "id": 12,
+      "image": "https://eshop.banchem.sk/userdata/cache/images/storecards/000193/600/000193_mop%20strapcovy%20bavlneny%20140%20180%20220%20250%20IT-600x800.jpg",
+      "name": "Matus",
+      "nickname": "Holenka",
+      "surname": "Holecka"
+    },
+    {
+      "id": 13,
+      "image": "https://api.sportnet.online/v1/ppo/futbalsfz.sk/users/5d6596c286dc8b72383529e0/formal-photo/6ac3297a-522f-460c-9c0f-6ce714ef6c39",
+      "name": "Lukas",
+      "nickname": "Vindik",
+      "surname": "Vindis"
+    },
+    {
+      "id": 14,
+      "image": "https://www.zeriavplus.sk/wp-content/uploads/2022/11/bager-vykopove-prace-liptovsky-mikulas.jpg",
+      "name": "Pato",
+      "nickname": "Patotvorba",
+      "surname": "Korba"
+    },
+    {
+      "id": 15,
+      "image": "https://img.freepik.com/free-psd/close-up-delicious-apple_23-2151868338.jpg?semt=ais_incoming&w=740&q=80",
+      "name": "Daniel",
+      "nickname": "Litwil",
+      "surname": "Barta"
+    },
+    {
+      "id": 16,
+      "image": "https://news.artnet.com/app/news-upload/2024/03/michelangelo-david-close-getty.jpg",
+      "name": "David",
+      "nickname": "Dejvid",
+      "surname": "Skula"
+    },
+    {
+      "id": 17,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN35oUPDlZ340sJvvDBVUtGpcyVKU_qzLj2g&s",
+      "name": "Rasto",
+      "nickname": "Chessmaster",
+      "surname": "Patak"
+    },
+    {
+      "id": 18,
+      "image": "https://images.unsplash.com/photo-1697029749544-ffa7f15f9dd0?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Ym9vayUyMGFlc3RoZXRpY3xlbnwwfHwwfHx8MA%3D%3D",
+      "name": "Karolina",
+      "nickname": "Kaja",
+      "surname": "Kmetova"
+    },
+    {
+      "id": 19,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSE28Io_jYYBhrQKXEK0DSwbJxHWbnqbWITeg&s",
+      "name": "Samuel",
+      "nickname": "Zib_zib",
+      "surname": "Martis"
+    },
+    {
+      "id": 20,
+      "image": "https://airsoftpro.sk/images/stories/virtuemart/product/we-airsoft-pistol-colt-25-ct25-fullmetal-blowback-pink-08.jpg",
+      "name": "Martin",
+      "nickname": "Boywithgunsb",
+      "surname": "Deglovic"
+    }
+  ]
+}
