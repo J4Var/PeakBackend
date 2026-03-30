@@ -130,7 +130,7 @@
         statusDiv.innerHTML = "Pripájanie k šifrovanému API...";
 
         try {
-            const response = await fetch('http://127.0.0.1:5000/api');
+            const response = await fetch('https://j4var.github.io/PeakBackend/data.json');
             if (!response.ok) throw new Error('Chyba servera');
             
             const json = await response.json();
