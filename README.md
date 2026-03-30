@@ -1,6 +1,7 @@
 # 🎓 Študentský Portál | PeakBackend API
 
-[![GitHub Pages](https://img.shields.io/badge/Live_Demo-Online-blueviolet?style=for-the-badge&logo=github)](https://j4var.github.io/PeakBackend/StrankaStudents.html)
+* **Frontend:** [Zobraziť Študentský Portál](https://j4var.github.io/PeakBackend/StrankaStudents.html)
+* **JSON Dáta (API):** [data.json](https://j4var.github.io/PeakBackend/data.json)
 
 > "Dáta sú nová ropa, ale informácie sú vedomosti."
 
