@@ -1,12 +1,14 @@
 from flask import Flask, jsonify
 from flask_cors import CORS 
+import os
 
 app = Flask(__name__)
+# CORS musí byť tu hore, aby fungoval na Renderi
 CORS(app) 
 
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
-
+# Tvoja databáza študentov
 databaza = {
     "students": [
         {"id": 1, "name": "Janka", "surname": "Vargová", "nickname": "Dzejna", "image": "https://pbs.twimg.com/media/EytkdiuWEAYmK_V.jpg"},
@@ -34,7 +36,7 @@ databaza = {
 
 @app.route('/')
 def home():
-    return jsonify({"message": "Vitajte v studentskom API s fotkami!"})
+    return jsonify({"message": "Vitajte v studentskom API! Dáta nájdete na /api"})
 
 @app.route('/api')
 def get_all_students():
@@ -42,12 +44,12 @@ def get_all_students():
 
 @app.route("/api/student/<int:student_id>")
 def get_one_student(student_id):
-    # Vyhľadávanie podľa ID
     student = next((s for s in databaza["students"] if s["id"] == student_id), None)
     if student:
         return jsonify(student)
     return jsonify({"error": "Student nenajdeny"}), 404
 
 if __name__ == '__main__':
-    CORS(app)
-    app.run(port=5000, debug=True)
+    # Toto sa spúšťa len pri lokálnom teste (python Backend.py)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
