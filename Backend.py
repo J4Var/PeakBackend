@@ -16,7 +16,7 @@ databaza = {
         {"id": 3, "name": "Matej", "surname": "Randziak", "nickname": "Moarari", "image": "https://sw6.elbenwald.de/media/03/9a/d6/1629846657/E1050579_2.jpg"},
         {"id": 4, "name": "Matúš", "surname": "Bucko", "nickname": "Kutik", "image": "https://preview.redd.it/mori-is-attractive-and-heres-why-v0-bvnzwyca9kqd1.jpg?width=640&crop=smart&auto=webp&s=4cd1fa8872be343b59bf92f74281b2097bf73241"},
         {"id": 5, "name": "Tomáš", "surname": "Jurčák", "nickname": "Jurcacik", "image": "https://pbs.twimg.com/media/G7WAlLvX0AAemKg.jpg"},
-        {"id": 6, "name": "Adrián", "surname": "Červenka", "nickname": "BigRed", "image": "https://cdn.discordapp.com/attachments/1465277883777024082/1469426348115099721/Screenshot_20260206_211508_Gallery.jpg?ex=69ca312e&is=69c8dfae&hm=3158bf91b369476112530358e31bf59d55d4fbbeae0799e264a9443f8efcf3a1&"},
+        {"id": 6, "name": "Adrián", "surname": "Červenka", "nickname": "BigRed", "image": "https://images.thedirect.com/media/article_full/oliver-invs.jpg"},
         {"id": 7, "name": "Marcus", "surname": "Martiš", "nickname": "Jew", "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXbhXxoPTWTWEf6rapVsCXNTkkrICigSNfVg&s"},
         {"id": 8, "name": "Martin", "surname": "Jelinek", "nickname": "Jeliman", "image": "https://api.sportnet.online/v1/ppo/futbalsfz.sk/users/68c9112594d10f7e9dd591c4/formal-photo/94387b0f-c431-49e2-b562-6a357f415c2d"},
         {"id": 9, "name": "Milan", "surname": "Kokina", "nickname": "Nalimovec", "image": "https://api.sportnet.online/v1/ppo/futbalsfz.sk/users/5efee63f1b04f230d150c5ce/formal-photo/e18f5e4d-9a8d-4196-9e18-30ebf1b60dc4"},
