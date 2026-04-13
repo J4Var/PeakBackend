@@ -1,14 +1,17 @@
-from flask import Flask, jsonify
-from flask_cors import CORS 
 import os
+from flask import Flask, jsonify, request
+from flask_cors import CORS 
+import google.generativeai as genai
 
 app = Flask(__name__)
-# CORS musí byť tu hore, aby fungoval na Renderi
 CORS(app) 
 
-app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+# --- KONFIGURÁCIA GEMINI AI ---
+# Na Renderi si v nastaveniach pridaj Environment Variable s kľúčom GEMINI_API_KEY
+api_key = os.environ.get("GEMINI_API_KEY", "TU_MOZES_DOCASNE_NECHAT_KLUC_AK_ESTE_NEMAS_ENV")
+genai.configure(api_key=api_key)
+model = genai.GenerativeModel('gemini-1.5-flash')
 
-# Tvoja databáza študentov
 databaza = {
     "students": [
         {"id": 1, "name": "Janka", "surname": "Vargová", "nickname": "Dzejna", "image": "https://pbs.twimg.com/media/EytkdiuWEAYmK_V.jpg"},
@@ -34,22 +37,29 @@ databaza = {
     ]
 }
 
-@app.route('/')
-def home():
-    return jsonify({"message": "Vitajte v studentskom API! Dáta nájdete na /api"})
-
 @app.route('/api')
 def get_all_students():
     return jsonify(databaza)
 
-@app.route("/api/student/<int:student_id>")
-def get_one_student(student_id):
-    student = next((s for s in databaza["students"] if s["id"] == student_id), None)
-    if student:
-        return jsonify(student)
-    return jsonify({"error": "Student nenajdeny"}), 404
+@app.route('/api/chat', methods=['POST'])
+def chat():
+    data = request.json
+    meno = data.get('name', 'Spolužiak')
+    sprava = data.get('message', '')
+
+    prompt = f"""
+    Si slovenský stredoškolák menom {meno}. 
+    Píš uvoľnene, nepoužívaj diakritiku, píš len malými písmenami. 
+    Používaj slang (jj, nwm, kks, mega, typek). 
+    Tvoja odpoveď na "{sprava}" musí byť krátka (max 2 vety).
+    """
+
+    try:
+        response = model.generate_content(prompt)
+        return jsonify({"reply": response.text})
+    except Exception as e:
+        return jsonify({"reply": "momentálne mi to nemyslí..."}), 500
 
 if __name__ == '__main__':
-    # Toto sa spúšťa len pri lokálnom teste (python Backend.py)
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
