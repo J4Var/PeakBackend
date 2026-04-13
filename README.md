@@ -5,7 +5,7 @@
 
 > "Dáta sú nová ropa, ale informácie sú vedomosti."
 
-Vitajte v modernom rozhraní pre správu študentskej databázy. Tento projekt demonštruje prepojenie vlastného Python backendu s responzívnym frontendom v elegantnom "Midnight" vizuále.
+Vitajte v modernom rozhraní pre správu študentskej databázy. Tento projekt demonštruje prepojenie vlastného Python backendu s responzívnym frontendom v elegantnom vizuále.
 
 ---
 
