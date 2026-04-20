@@ -1,18 +1,53 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Itečka Chat</title>
+    <style>
+        body { font-family: sans-serif; background: linear-gradient(135deg, #ffb7ce, #a2d2ff); min-height: 100vh; margin: 0; padding: 20px; text-align: center; }
+        .student-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; max-width: 1000px; margin: 20px auto; }
+        .card { background: white; padding: 15px; border-radius: 10px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .card:hover { transform: scale(1.05); }
+        .card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
+        #chat-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+        .chat-box { background: white; width: 350px; margin: 100px auto; border-radius: 15px; overflow: hidden; display: flex; flex-direction: column; height: 450px; }
+        #msgs { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f9f9f9; }
+        .m { padding: 8px 12px; border-radius: 15px; font-size: 14px; max-width: 80%; }
+        .user { align-self: flex-end; background: #a2d2ff; }
+        .ai { align-self: flex-start; background: #eee; }
+        .input-area { padding: 10px; border-top: 1px solid #ddd; display: flex; }
+        input { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
+    </style>
+</head>
+<body>
+
+<h1>Kamoši z Itečky</h1>
+<div id="container" class="student-list"></div>
+
+<div id="chat-modal">
+    <div class="chat-box">
+        <div style="padding: 10px; background: #c8b6ff; color: white; display: flex; justify-content: space-between;">
+            <span id="chat-name">Chat</span>
+            <span onclick="closeChat()" style="cursor:pointer">✕</span>
+        </div>
+        <div id="msgs"></div>
+        <div class="input-area">
+            <input type="text" id="inp" placeholder="Napíš..." onkeypress="if(event.key==='Enter') send()">
+        </div>
+    </div>
+</div>
+
 <script>
-    // 1. ADRESA - Pridal som /api priamo sem, aby si na to nemusel myslieť v kóde
+    // TU JE HLAVNÁ OPRAVA: Premenná URL končí na /api
     const URL = "https://peakbackend-2.onrender.com/api"; 
     let current = "";
 
     async function start() {
         try {
-            // Tu to predtým padalo, lebo chýbalo /api
-            const res = await fetch(URL); 
-            if (!res.ok) throw new Error("Backend neodpovedá");
-            
+            const res = await fetch(URL);
             const data = await res.json();
             const cont = document.getElementById('container');
-            cont.innerHTML = ""; // Vyčistíme kontajner pre istotu
-
+            cont.innerHTML = "";
             data.students.forEach(s => {
                 const d = document.createElement('div');
                 d.className = 'card';
@@ -20,9 +55,8 @@
                 d.onclick = () => openChat(s.name);
                 cont.appendChild(d);
             });
-        } catch (err) {
-            console.error("Chyba načítania:", err);
-            document.getElementById('container').innerHTML = "<p>Nepodarilo sa načítať spolužiakov. Skontroluj, či ti beží Backend na Renderi.</p>";
+        } catch (e) {
+            console.error("Chyba načítania žiakov:", e);
         }
     }
 
@@ -33,35 +67,31 @@
         document.getElementById('chat-modal').style.display = 'block';
     }
 
-    function closeChat() { 
-        document.getElementById('chat-modal').style.display = 'none'; 
-    }
+    function closeChat() { document.getElementById('chat-modal').style.display = 'none'; }
 
     async function send() {
         const inp = document.getElementById('inp');
         const txt = inp.value;
         if(!txt) return;
-        
         const box = document.getElementById('msgs');
         box.innerHTML += `<div class="m user">${txt}</div>`;
         inp.value = "";
-        box.scrollTop = box.scrollHeight;
         
         try {
-            // Tu posielame správu na https://peakbackend-2.onrender.com/api/chat
             const res = await fetch(`${URL}/chat`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({name: current, message: txt})
             });
-            
             const data = await res.json();
             box.innerHTML += `<div class="m ai">${data.reply}</div>`;
-        } catch (err) {
-            box.innerHTML += `<div class="m ai">Ešte stále som na tej hodine... (Chyba spojenia)</div>`;
+        } catch (e) {
+            box.innerHTML += `<div class="m ai">Server neodpovedá... 🔧</div>`;
         }
         box.scrollTop = box.scrollHeight;
     }
 
     start();
 </script>
+</body>
+</html>
