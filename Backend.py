@@ -6,12 +6,10 @@ from groq import Groq
 app = Flask(__name__)
 CORS(app)
 
-# --- KONFIGURÁCIA GROQ ---
-# Na Renderi musíš mať v sekcii Environment premennú GROQ_API_KEY
-api_key = os.environ.get("GROQ_API_KEY")
-client = Groq(api_key=api_key)
+# Inicializácia Groq klienta (Kľúč GROQ_API_KEY musíš mať v Environment na Renderi)
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
-# Databáza priamo v kóde
+# DATABÁZA ŠTUDENTOV PRIAMO V BACKENDE
 databaza = {
     "students": [
         {"id": 1, "name": "Janka", "surname": "Vargová", "nickname": "Dzejna", "bio": "si milá, tichá, miluješ knihy a používaš veľa srdiečok.", "image": "https://pbs.twimg.com/media/EytkdiuWEAYmK_V.jpg"},
@@ -48,23 +46,19 @@ def chat():
         meno = data.get('name', 'Spolužiak')
         sprava = data.get('message', '')
 
-        # Hľadanie v databáze
         student = next((s for s in databaza["students"] if s["name"] == meno), None)
         osobnost = student["bio"] if student else "si stredoškolák."
 
-        # Groq API volanie
         completion = client.chat.completions.create(
             model="llama-3.1-8b-instant",
             messages=[
-                {"role": "system", "content": f"Si {meno}. OSOBNOSŤ: {osobnost}. Píš uvoľnene, bez diakritiky, malé písmená, používaj slang. Max 2 vety."},
+                {"role": "system", "content": f"Si {meno}. OSOBNOSŤ: {osobnost}. Píš uvoľnene, bez diakritiky, malé písmená. Max 2 vety."},
                 {"role": "user", "content": sprava}
             ],
             temperature=0.8
         )
-        
         return jsonify({"reply": completion.choices[0].message.content})
     except Exception as e:
-        print(f"ERROR: {e}")
         return jsonify({"reply": "momentálne mi to nemyslí... 🔧"}), 500
 
 if __name__ == '__main__':
