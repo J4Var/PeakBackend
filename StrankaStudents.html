@@ -2,7 +2,7 @@
 <html lang="sk">
 <head>
     <meta charset="UTF-8">
-    <title>Itečka FOREVER! | Pastel AI Chat</title>
+    <title>Itečka FOREVER! | AI Chat</title>
     <style>
         :root {
             --p-pink: #ffb7ce; --p-blue: #a2d2ff; --p-purple: #c8b6ff;
@@ -11,79 +11,111 @@
         }
 
         body { 
-            font-family: 'Segoe UI', sans-serif; background: var(--bg-gradient); 
+            font-family: 'Segoe UI', Roboto, sans-serif; background: var(--bg-gradient); 
             background-attachment: fixed; margin: 0; padding: 40px 20px; 
         }
 
-        body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(rgba(255,255,255,0.3) 2px, transparent 2px);
-            background-size: 25px 25px; z-index: -1;
+        .container { max-width: 1100px; margin: 0 auto; text-align: center; }
+        
+        h1 { color: white; text-shadow: 2px 2px 5px rgba(0,0,0,0.1); font-weight: 300; }
+
+        #search {
+            width: 100%; max-width: 450px; padding: 14px 25px; margin-bottom: 40px;
+            border: none; border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            outline: none; font-size: 16px;
         }
 
-        .container { max-width: 1100px; margin: 0 auto; text-align: center; }
-        .student-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; margin-top: 30px; }
+        .student-list {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px;
+        }
 
         .student-card {
-            background: var(--card-bg); padding: 25px; border-radius: 15px;
-            cursor: pointer; transition: 0.3s; border: 1px solid rgba(255,255,255,0.5);
-            backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center;
+            background: var(--card-bg); padding: 30px 20px; border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05); transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.5); backdrop-filter: blur(10px);
+            display: flex; flex-direction: column; align-items: center; cursor: pointer;
         }
-        .student-card:hover { transform: translateY(-5px); background: white; border-color: var(--p-pink); }
-        .student-photo { width: 100px; height: 100px; border-radius: 12px; object-fit: cover; border: 3px solid white; margin-bottom: 10px; }
 
-        /* CHAT MODAL */
+        .student-card:hover { transform: translateY(-5px); background: white; }
+
+        .student-photo {
+            width: 110px; height: 110px; border-radius: 10px;
+            object-fit: cover; margin-bottom: 18px; border: 3px solid white;
+        }
+
+        /* CHAT WINDOW */
         #chat-modal {
             display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.2); backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.3); backdrop-filter: blur(5px);
         }
-        .chat-box {
-            background: white; width: 90%; max-width: 400px; margin: 50px auto;
-            border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; height: 500px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+
+        .chat-content {
+            background: white; margin: 5% auto; width: 90%; max-width: 450px;
+            border-radius: 20px; overflow: hidden; display: flex; flex-direction: column;
+            height: 70vh; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
         }
-        .chat-header { background: var(--p-purple); color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; }
-        #chat-window { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #fdfbff; }
-        .msg { padding: 10px 14px; border-radius: 18px; max-width: 80%; font-size: 14px; }
-        .user { align-self: flex-end; background: var(--p-blue); color: white; }
-        .ai { align-self: flex-start; background: #f0f0f0; color: #555; }
-        .chat-input { padding: 15px; display: flex; gap: 10px; border-top: 1px solid #eee; }
-        input[type="text"] { flex: 1; padding: 10px 15px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
-        button { background: var(--p-pink); border: none; color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer; }
+
+        .chat-header {
+            padding: 20px; background: var(--p-purple); color: white;
+            display: flex; align-items: center; justify-content: space-between; font-weight: bold;
+        }
+
+        #chat-messages {
+            flex: 1; padding: 20px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 10px; background: #fdfbff;
+        }
+
+        .msg { padding: 10px 15px; border-radius: 18px; max-width: 80%; font-size: 0.9rem; line-height: 1.4; }
+        .msg.user { align-self: flex-end; background: var(--p-blue); color: white; }
+        .msg.ai { align-self: flex-start; background: #eee; color: var(--text-main); }
+
+        .chat-input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; }
+        .chat-input-area input {
+            flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 25px; outline: none;
+        }
+        .chat-input-area button {
+            background: var(--p-pink); border: none; color: white;
+            padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">Itečka FOREVER!</h1>
-    <input type="text" id="search" placeholder="Hľadať kamoša..." onkeyup="filterData()" style="width:100%; max-width:400px; padding:12px 20px; border-radius:30px; border:none; box-shadow: 0 4px 10px rgba(0,0,0,0.05); outline:none;">
+    <h1>Itečka FOREVER!</h1>
+    <input type="text" id="search" placeholder="Hľadať spolužiaka..." onkeyup="filterData()">
     <div id="student-container" class="student-list"></div>
 </div>
 
 <div id="chat-modal">
-    <div class="chat-box">
-        <div class="chat-header"><span id="chat-title">Chat</span> <span onclick="closeChat()" style="cursor:pointer">✕</span></div>
-        <div id="chat-window"></div>
-        <div class="chat-input">
-            <input type="text" id="user-msg" placeholder="Napíš niečo..." onkeypress="if(event.key==='Enter') sendMessage()">
-            <button onclick="sendMessage()">Odoslať</button>
+    <div class="chat-content">
+        <div class="chat-header">
+            <span id="chat-with-name">Chat</span>
+            <span onclick="closeChat()" style="cursor:pointer; font-size: 24px;">&times;</span>
+        </div>
+        <div id="chat-messages"></div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Napíš správu..." onkeypress="if(event.key==='Enter') sendMessage()">
+            <button onclick="sendMessage()">Poslať</button>
         </div>
     </div>
 </div>
 
 <script>
     let studentsData = [];
-    let currentStudent = "";
-    // ZMEŇ TÚTO ADRESU NA SVOJU RENDER ADRESU:
-    const API_URL = "https://peakbackend.onrender.com/api";
+    let activeStudentName = "";
+    // SEM DAJ SVOJU RENDER ADRESU:
+    const BACKEND_URL = "https://peakbackend.onrender.com/api";
 
     async function fetchData() {
         try {
-            const res = await fetch(API_URL);
-            const json = await res.json();
+            const response = await fetch(BACKEND_URL);
+            const json = await response.json();
             studentsData = json.students;
             renderStudents(studentsData);
-        } catch (e) { console.error("Chyba:", e); }
+        } catch (err) {
+            console.error("Chyba pri načítaní dát.");
+        }
     }
 
     function renderStudents(list) {
@@ -92,46 +124,53 @@
         list.forEach(s => {
             container.innerHTML += `
                 <div class="student-card" onclick="openChat('${s.name}')">
-                    <img src="${s.image}" class="student-photo">
-                    <h3 style="margin: 5px 0;">${s.name} ${s.surname}</h3>
-                    <p style="margin: 0; color: #9f86c0; font-size: 0.8em;">@${s.nickname}</p>
-                </div>`;
+                    <img src="${s.image}" alt="${s.name}" class="student-photo">
+                    <h3 style="margin:0">${s.name} ${s.surname}</h3>
+                    <p style="color:var(--text-muted); margin:5px 0">@${s.nickname}</p>
+                </div>
+            `;
         });
     }
 
     function openChat(name) {
-        currentStudent = name;
-        document.getElementById('chat-title').innerText = "Chatuješ s: " + name;
-        document.getElementById('chat-window').innerHTML = `<div class="msg ai">čauko, tu ${name}. čo máš na srdci? ✨</div>`;
+        activeStudentName = name;
+        document.getElementById('chat-with-name').innerText = "Chat s " + name;
+        document.getElementById('chat-messages').innerHTML = `
+            <div class="msg ai">čau, tu ${name}. čo píšeš? ✨</div>
+        `;
         document.getElementById('chat-modal').style.display = 'block';
     }
 
     function closeChat() { document.getElementById('chat-modal').style.display = 'none'; }
 
     async function sendMessage() {
-        const input = document.getElementById('user-msg');
+        const input = document.getElementById('chat-input');
         const text = input.value.trim();
-        if(!text) return;
+        if (!text) return;
 
-        const win = document.getElementById('chat-window');
-        win.innerHTML += `<div class="msg user">${text}</div>`;
+        const msgContainer = document.getElementById('chat-messages');
+        msgContainer.innerHTML += `<div class="msg user">${text}</div>`;
         input.value = '';
+        msgContainer.scrollTop = msgContainer.scrollHeight;
 
         try {
-            const res = await fetch(`${API_URL}/chat`, {
+            const response = await fetch(`${BACKEND_URL}/chat`, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name: currentStudent, message: text})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: activeStudentName, message: text })
             });
-            const data = await res.json();
-            win.innerHTML += `<div class="msg ai">${data.reply}</div>`;
-            win.scrollTop = win.scrollHeight;
-        } catch(e) { win.innerHTML += `<div class="msg ai">som offline, sorry... 🔌</div>`; }
+            const data = await response.json();
+            msgContainer.innerHTML += `<div class="msg ai">${data.reply}</div>`;
+            msgContainer.scrollTop = msgContainer.scrollHeight;
+        } catch (err) {
+            msgContainer.innerHTML += `<div class="msg ai">sorry, som offline... 🔌</div>`;
+        }
     }
 
     function filterData() {
         const val = document.getElementById('search').value.toLowerCase();
-        renderStudents(studentsData.filter(s => s.name.toLowerCase().includes(val) || s.surname.toLowerCase().includes(val)));
+        const filtered = studentsData.filter(s => s.name.toLowerCase().includes(val) || s.nickname.toLowerCase().includes(val));
+        renderStudents(filtered);
     }
 
     fetchData();
