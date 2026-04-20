@@ -2,178 +2,86 @@
 <html lang="sk">
 <head>
     <meta charset="UTF-8">
-    <title>Itečka FOREVER! | AI Chat</title>
+    <title>Itečka Chat</title>
     <style>
-        :root {
-            --p-pink: #ffb7ce; --p-blue: #a2d2ff; --p-purple: #c8b6ff;
-            --bg-gradient: linear-gradient(135deg, #ffb7ce 0%, #c8b6ff 50%, #a2d2ff 100%);
-            --card-bg: rgba(255, 255, 255, 0.8); --text-main: #5e548e;
-        }
-
-        body { 
-            font-family: 'Segoe UI', Roboto, sans-serif; background: var(--bg-gradient); 
-            background-attachment: fixed; margin: 0; padding: 40px 20px; 
-        }
-
-        .container { max-width: 1100px; margin: 0 auto; text-align: center; }
-        
-        h1 { color: white; text-shadow: 2px 2px 5px rgba(0,0,0,0.1); font-weight: 300; }
-
-        #search {
-            width: 100%; max-width: 450px; padding: 14px 25px; margin-bottom: 40px;
-            border: none; border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            outline: none; font-size: 16px;
-        }
-
-        .student-list {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px;
-        }
-
-        .student-card {
-            background: var(--card-bg); padding: 30px 20px; border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05); transition: 0.3s;
-            border: 1px solid rgba(255,255,255,0.5); backdrop-filter: blur(10px);
-            display: flex; flex-direction: column; align-items: center; cursor: pointer;
-        }
-
-        .student-card:hover { transform: translateY(-5px); background: white; }
-
-        .student-photo {
-            width: 110px; height: 110px; border-radius: 10px;
-            object-fit: cover; margin-bottom: 18px; border: 3px solid white;
-        }
-
-        /* CHAT WINDOW */
-        #chat-modal {
-            display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.3); backdrop-filter: blur(5px);
-        }
-
-        .chat-content {
-            background: white; margin: 5% auto; width: 90%; max-width: 450px;
-            border-radius: 20px; overflow: hidden; display: flex; flex-direction: column;
-            height: 70vh; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-        }
-
-        .chat-header {
-            padding: 20px; background: var(--p-purple); color: white;
-            display: flex; align-items: center; justify-content: space-between; font-weight: bold;
-        }
-
-        #chat-messages {
-            flex: 1; padding: 20px; overflow-y: auto;
-            display: flex; flex-direction: column; gap: 10px; background: #fdfbff;
-        }
-
-        .msg { padding: 10px 15px; border-radius: 18px; max-width: 80%; font-size: 0.9rem; line-height: 1.4; }
-        .msg.user { align-self: flex-end; background: var(--p-blue); color: white; }
-        .msg.ai { align-self: flex-start; background: #eee; color: var(--text-main); }
-
-        .chat-input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; }
-        .chat-input-area input {
-            flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 25px; outline: none;
-        }
-        .chat-input-area button {
-            background: var(--p-pink); border: none; color: white;
-            padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: bold;
-        }
+        body { font-family: sans-serif; background: linear-gradient(135deg, #ffb7ce, #a2d2ff); min-height: 100vh; margin: 0; padding: 20px; text-align: center; }
+        .student-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; max-width: 1000px; margin: 20px auto; }
+        .card { background: white; padding: 15px; border-radius: 10px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .card:hover { transform: scale(1.05); }
+        .card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
+        #chat-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+        .chat-box { background: white; width: 350px; margin: 100px auto; border-radius: 15px; overflow: hidden; display: flex; flex-direction: column; height: 450px; }
+        #msgs { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f9f9f9; }
+        .m { padding: 8px 12px; border-radius: 15px; font-size: 14px; max-width: 80%; }
+        .user { align-self: flex-end; background: #a2d2ff; }
+        .ai { align-self: flex-start; background: #eee; }
+        .input-area { padding: 10px; border-top: 1px solid #ddd; display: flex; }
+        input { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Itečka FOREVER!</h1>
-    <input type="text" id="search" placeholder="Hľadať spolužiaka..." onkeyup="filterData()">
-    <div id="student-container" class="student-list"></div>
-</div>
+<h1>Kamoši z Itečky</h1>
+<div id="container" class="student-list"></div>
 
 <div id="chat-modal">
-    <div class="chat-content">
-        <div class="chat-header">
-            <span id="chat-with-name">Chat</span>
-            <span onclick="closeChat()" style="cursor:pointer; font-size: 24px;">&times;</span>
+    <div class="chat-box">
+        <div style="padding: 10px; background: #c8b6ff; color: white; display: flex; justify-content: space-between;">
+            <span id="chat-name">Chat</span>
+            <span onclick="closeChat()" style="cursor:pointer">✕</span>
         </div>
-        <div id="chat-messages"></div>
-        <div class="chat-input-area">
-            <input type="text" id="chat-input" placeholder="Napíš správu..." onkeypress="if(event.key==='Enter') sendMessage()">
-            <button onclick="sendMessage()">Poslať</button>
+        <div id="msgs"></div>
+        <div class="input-area">
+            <input type="text" id="inp" placeholder="Napíš..." onkeypress="if(event.key==='Enter') send()">
         </div>
     </div>
 </div>
 
 <script>
-    let studentsData = [];
-    let activeStudentName = "";
-    // SEM DAJ SVOJU RENDER ADRESU:
-    const BACKEND_URL = "https://peakbackend.onrender.com/api";
+    const URL = "https://peakbackend.onrender.com/api"; // TU DAJ SVOJU ADRESU Z RENDERU
+    let current = "";
 
-    async function fetchData() {
-        try {
-            const response = await fetch(BACKEND_URL);
-            const json = await response.json();
-            studentsData = json.students;
-            renderStudents(studentsData);
-        } catch (err) {
-            console.error("Chyba pri načítaní dát.");
-        }
-    }
-
-    function renderStudents(list) {
-        const container = document.getElementById('student-container');
-        container.innerHTML = '';
-        list.forEach(s => {
-            container.innerHTML += `
-                <div class="student-card" onclick="openChat('${s.name}')">
-                    <img src="${s.image}" alt="${s.name}" class="student-photo">
-                    <h3 style="margin:0">${s.name} ${s.surname}</h3>
-                    <p style="color:var(--text-muted); margin:5px 0">@${s.nickname}</p>
-                </div>
-            `;
+    async function start() {
+        const res = await fetch(URL);
+        const data = await res.json();
+        const cont = document.getElementById('container');
+        data.students.forEach(s => {
+            const d = document.createElement('div');
+            d.className = 'card';
+            d.innerHTML = `<img src="${s.image}"><h3>${s.name}</h3><p>@${s.nickname}</p>`;
+            d.onclick = () => openChat(s.name);
+            cont.appendChild(d);
         });
     }
 
     function openChat(name) {
-        activeStudentName = name;
-        document.getElementById('chat-with-name').innerText = "Chat s " + name;
-        document.getElementById('chat-messages').innerHTML = `
-            <div class="msg ai">čau, tu ${name}. čo píšeš? ✨</div>
-        `;
+        current = name;
+        document.getElementById('chat-name').innerText = name;
+        document.getElementById('msgs').innerHTML = `<div class="m ai">Čau, tu ${name}. Čo chceš?</div>`;
         document.getElementById('chat-modal').style.display = 'block';
     }
 
     function closeChat() { document.getElementById('chat-modal').style.display = 'none'; }
 
-    async function sendMessage() {
-        const input = document.getElementById('chat-input');
-        const text = input.value.trim();
-        if (!text) return;
-
-        const msgContainer = document.getElementById('chat-messages');
-        msgContainer.innerHTML += `<div class="msg user">${text}</div>`;
-        input.value = '';
-        msgContainer.scrollTop = msgContainer.scrollHeight;
-
-        try {
-            const response = await fetch(`${BACKEND_URL}/chat`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: activeStudentName, message: text })
-            });
-            const data = await response.json();
-            msgContainer.innerHTML += `<div class="msg ai">${data.reply}</div>`;
-            msgContainer.scrollTop = msgContainer.scrollHeight;
-        } catch (err) {
-            msgContainer.innerHTML += `<div class="msg ai">sorry, som offline... 🔌</div>`;
-        }
+    async function send() {
+        const inp = document.getElementById('inp');
+        const txt = inp.value;
+        if(!txt) return;
+        const box = document.getElementById('msgs');
+        box.innerHTML += `<div class="m user">${txt}</div>`;
+        inp.value = "";
+        
+        const res = await fetch(`${URL}/chat`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({name: current, message: txt})
+        });
+        const data = await res.json();
+        box.innerHTML += `<div class="m ai">${data.reply}</div>`;
+        box.scrollTop = box.scrollHeight;
     }
 
-    function filterData() {
-        const val = document.getElementById('search').value.toLowerCase();
-        const filtered = studentsData.filter(s => s.name.toLowerCase().includes(val) || s.nickname.toLowerCase().includes(val));
-        renderStudents(filtered);
-    }
-
-    fetchData();
+    start();
 </script>
 </body>
 </html>
