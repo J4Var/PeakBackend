@@ -1,14 +1,15 @@
 import os
 from flask import Flask, jsonify, request
-from flask_cors import CORS 
+from flask_cors import CORS
 from groq import Groq
 
 app = Flask(__name__)
-CORS(app) 
+CORS(app)
 
 # --- KONFIGURÁCIA GROQ ---
-# Na Renderi pridaj premennú GROQ_API_KEY
-client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+# Na Renderi musíš mať v sekcii Environment premennú GROQ_API_KEY
+api_key = os.environ.get("GROQ_API_KEY")
+client = Groq(api_key=api_key)
 
 # Databáza priamo v kóde
 databaza = {
@@ -42,24 +43,28 @@ def get_all_students():
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
-    data = request.json
-    meno = data.get('name', 'Spolužiak')
-    sprava = data.get('message', '')
-
-    student = next((s for s in databaza["students"] if s["name"] == meno), None)
-    osobnost = student["bio"] if student else "si stredoškolák."
-
     try:
+        data = request.json
+        meno = data.get('name', 'Spolužiak')
+        sprava = data.get('message', '')
+
+        # Hľadanie v databáze
+        student = next((s for s in databaza["students"] if s["name"] == meno), None)
+        osobnost = student["bio"] if student else "si stredoškolák."
+
+        # Groq API volanie
         completion = client.chat.completions.create(
-            model="llama3-8b-8192",
+            model="llama-3.1-8b-instant",
             messages=[
                 {"role": "system", "content": f"Si {meno}. OSOBNOSŤ: {osobnost}. Píš uvoľnene, bez diakritiky, malé písmená, používaj slang. Max 2 vety."},
                 {"role": "user", "content": sprava}
             ],
             temperature=0.8
         )
+        
         return jsonify({"reply": completion.choices[0].message.content})
     except Exception as e:
+        print(f"ERROR: {e}")
         return jsonify({"reply": "momentálne mi to nemyslí... 🔧"}), 500
 
 if __name__ == '__main__':
