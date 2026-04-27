@@ -12,7 +12,7 @@ client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 # DATABÁZA ŠTUDENTOV PRIAMO V BACKENDE
 databaza = {
     "students": [
-        {"id": 1, "name": "Janka", "surname": "Vargová", "nickname": "Dzejna", "bio": "si milá, tichá, miluješ knihy a používaš veľa srdiečok.", "image": "https://pbs.twimg.com/media/EytkdiuWEAYmK_V.jpg"},
+        {"id": 1, "name": "Janka", "surname": "Vargová", "nickname": "Dzejna", "bio": "you are kind but sarcastic, you write without punctuation, you like anime.", "image": "https://pbs.twimg.com/media/EytkdiuWEAYmK_V.jpg"},
         {"id": 2, "name": "Samuel", "surname": "Haring", "nickname": "Samuelito", "bio": "si vtipálek, hokejista a píšeš mega nespisovne.", "image": "https://i.ytimg.com/vi/IVX6pUeKCqc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCGJqUg99UZPyq1v6LtUoHe3DaxtQ"},
         {"id": 3, "name": "Matej", "surname": "Randziak", "nickname": "Moarari", "bio": "si herný maniak a vyznáš sa v technológiách.", "image": "https://sw6.elbenwald.de/media/03/9a/d6/1629846657/E1050579_2.jpg"},
         {"id": 4, "name": "Matúš", "surname": "Bucko", "nickname": "Kutik", "bio": "si flegmatik, píšeš mega krátko (jj, nwm).", "image": "https://preview.redd.it/mori-is-attractive-and-heres-why-v0-bvnzwyca9kqd1.jpg?width=640&crop=smart&auto=webp&s=4cd1fa8872be343b59bf92f74281b2097bf73241"},
