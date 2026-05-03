@@ -91,6 +91,19 @@
         box.scrollTop = box.scrollHeight;
     }
 
+    async function editBio(id) {
+    const newBio = prompt("Write new bio for this classmate:");
+    if (newBio) {
+        await fetch("https://peakbackend-2.onrender.com/api/update_bio", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: id, bio: newBio })
+        });
+        alert("Bio updated! Refresh the page.");
+        location.reload(); // Stránka sa obnoví a načíta nové dáta
+    }
+}
+
     start();
 </script>
 </body>
