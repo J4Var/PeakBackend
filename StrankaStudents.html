@@ -51,8 +51,17 @@
             data.students.forEach(s => {
                 const d = document.createElement('div');
                 d.className = 'card';
-                d.innerHTML = `<img src="${s.image}"><h3>${s.name}</h3><p>@${s.nickname}</p>`;
-                d.onclick = () => openChat(s.name);
+                // SEM SME PRIDALI TLAČIDLÁ
+                d.innerHTML = `
+                    <img src="${s.image}">
+                    <h3>${s.name}</h3>
+                    <p>@${s.nickname}</p>
+                    <div style="margin-top: 10px;">
+                        <button onclick="openChat('${s.name}')" style="cursor:pointer; padding: 5px 10px; border-radius: 5px; border: none; background: #a2d2ff;">Chat</button>
+                        <button onclick="editBio(${s.id})" style="cursor:pointer; padding: 5px 10px; border-radius: 5px; border: none; background: #ddd;">Edit Bio</button>
+                    </div>
+                `;
+                // Odstránili sme d.onclick, aby sa chat neotváral kliknutím na hocikde na kartu
                 cont.appendChild(d);
             });
         } catch (e) {
