@@ -67,6 +67,23 @@ def chat():
         print(f"Chyba pri chate: {e}")
         return jsonify({"reply": "momentálne mi to nemyslí... 🔧"}), 500
 
+@app.route('/api/update_bio', methods=['POST'])
+def update_bio():
+    try:
+        data = request.json
+        student_id = data.get('id')
+        new_bio = data.get('bio')
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute('UPDATE students SET bio = %s WHERE id = %s', (new_bio, student_id))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return jsonify({"status": "success"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
