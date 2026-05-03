@@ -57,7 +57,7 @@ def chat():
         completion = client.chat.completions.create(
             model="llama-3.1-8b-instant",
             messages=[
-                {"role": "system", "content": f"Si {meno}. OSOBNOSŤ: {osobnost}. Píš uvoľnene, bez diakritiky, malé písmená. Max 2 vety."},
+                {"role": "system", "content": f"You are {meno}. PERSONALITY: {osobnost}. Speak casually in English, use lowercase, no formal language. Max 2 sentences."},
                 {"role": "user", "content": sprava}
             ],
             temperature=0.8
