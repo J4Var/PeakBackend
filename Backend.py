@@ -52,7 +52,7 @@ def chat():
         cur.close()
         conn.close()
 
-        osobnost = result["bio"] if result else "si stredoškolák."
+        osobnost = result["bio"] if result else "you are high schooler."
 
         completion = client.chat.completions.create(
             model="llama-3.1-8b-instant",
