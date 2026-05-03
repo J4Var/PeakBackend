@@ -36,7 +36,22 @@
         </div>
     </div>
 </div>
-
+    
+<div id="bio-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);">
+    <div class="chat-box" style="height: auto; margin-top: 150px; padding-bottom: 20px;">
+        <div style="padding: 10px; background: #c8b6ff; color: white; display: flex; justify-content: space-between;">
+            <span>Update Bio</span>
+            <span onclick="closeBioModal()" style="cursor:pointer">✕</span>
+        </div>
+        <div style="padding: 20px;">
+            <p id="bio-target-name" style="font-weight: bold; margin-bottom: 10px;"></p>
+            <input type="text" id="bio-input" placeholder="Enter new personality..." style="width: 80%; margin-bottom: 15px;">
+            <br>
+            <button onclick="saveBio()" style="background: #a2d2ff; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer;">Save Changes</button>
+        </div>
+    </div>
+</div>
+    
 <script>
     // TU JE HLAVNÁ OPRAVA: Premenná URL končí na /api
     const URL = "https://peakbackend-2.onrender.com/api"; 
