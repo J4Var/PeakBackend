@@ -1,134 +1,199 @@
 <!DOCTYPE html>
-<html lang="sk">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Itečka Chat</title>
+    <title>Itečka AI Chat</title>
     <style>
-        body { font-family: sans-serif; background: linear-gradient(135deg, #ffb7ce, #a2d2ff); min-height: 100vh; margin: 0; padding: 20px; text-align: center; }
-        .student-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; max-width: 1000px; margin: 20px auto; }
-        .card { background: white; padding: 15px; border-radius: 10px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .card:hover { transform: scale(1.05); }
-        .card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
-        #chat-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
-        .chat-box { background: white; width: 350px; margin: 100px auto; border-radius: 15px; overflow: hidden; display: flex; flex-direction: column; height: 450px; }
-        #msgs { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f9f9f9; }
-        .m { padding: 8px 12px; border-radius: 15px; font-size: 14px; max-width: 80%; }
-        .user { align-self: flex-end; background: #a2d2ff; }
-        .ai { align-self: flex-start; background: #eee; }
-        .input-area { padding: 10px; border-top: 1px solid #ddd; display: flex; }
-        input { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
+        /* --- 1. DIZAJN A ŠTÝLY (CSS) --- */
+        body { 
+            font-family: sans-serif; 
+            background: linear-gradient(135deg, #ffb7ce, #a2d2ff); 
+            min-height: 100vh; margin: 0; padding: 20px; text-align: center; 
+        }
+
+        /* Mriežka pre kartičky spolužiakov */
+        .student-list { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+            gap: 20px; max-width: 1100px; margin: 20px auto; 
+        }
+
+        /* Vzhľad kartičky */
+        .card { 
+            background: white; padding: 20px; border-radius: 15px; 
+            transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
+        .card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
+
+        /* Spoločný štýl pre vyskakovacie okná (Chat aj Bio) */
+        .modal { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.6); z-index: 1000;
+        }
+
+        .chat-box { 
+            background: white; width: 350px; margin: 80px auto; 
+            border-radius: 20px; overflow: hidden; display: flex; 
+            flex-direction: column; height: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        /* Bubliny v chate */
+        #msgs { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #fefefe; }
+        .m { padding: 10px 14px; border-radius: 18px; font-size: 14px; max-width: 85%; line-height: 1.4; }
+        .user { align-self: flex-end; background: #a2d2ff; color: white; border-bottom-right-radius: 2px; }
+        .ai { align-self: flex-start; background: #f1f1f1; color: #333; border-bottom-left-radius: 2px; }
+
+        /* Vstupná časť pre písanie */
+        .input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 5px; }
+        input[type="text"] { flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 25px; outline: none; }
+        
+        /* Tlačidlá */
+        button { cursor: pointer; border: none; border-radius: 8px; transition: 0.2s; }
+        button:hover { opacity: 0.8; }
+        .btn-chat { background: #a2d2ff; color: white; padding: 8px 15px; }
+        .btn-edit { background: #eee; color: #666; padding: 8px 15px; }
+        .btn-save { background: #c8b6ff; color: white; padding: 12px; width: 100%; border-radius: 25px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<h1>Kamoši z Itečky</h1>
-<div id="container" class="student-list"></div>
+    <!-- --- 2. VIDITEĽNÝ OBSAH STRÁNKY --- -->
+    <h1>Classmates AI Hub</h1>
+    <p>Chat with your friends or reprogram their personality!</p>
+    
+    <div id="container" class="student-list"></div>
 
-<div id="chat-modal">
-    <div class="chat-box">
-        <div style="padding: 10px; background: #c8b6ff; color: white; display: flex; justify-content: space-between;">
-            <span id="chat-name">Chat</span>
-            <span onclick="closeChat()" style="cursor:pointer">✕</span>
-        </div>
-        <div id="msgs"></div>
-        <div class="input-area">
-            <input type="text" id="inp" placeholder="Napíš..." onkeypress="if(event.key==='Enter') send()">
+    <!-- OKNO PRE CHAT -->
+    <div id="chat-modal" class="modal">
+        <div class="chat-box">
+            <div style="padding: 15px; background: #a2d2ff; color: white; display: flex; justify-content: space-between; font-weight: bold;">
+                <span id="chat-name">Chat</span>
+                <span onclick="closeChat()" style="cursor:pointer">✕</span>
+            </div>
+            <div id="msgs"></div>
+            <div class="input-area">
+                <input type="text" id="inp" placeholder="Type a message..." onkeypress="if(event.key==='Enter') send()">
+            </div>
         </div>
     </div>
-</div>
-    
-<div id="bio-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);">
-    <div class="chat-box" style="height: auto; margin-top: 150px; padding-bottom: 20px;">
-        <div style="padding: 10px; background: #c8b6ff; color: white; display: flex; justify-content: space-between;">
-            <span>Update Bio</span>
-            <span onclick="closeBioModal()" style="cursor:pointer">✕</span>
-        </div>
-        <div style="padding: 20px;">
-            <p id="bio-target-name" style="font-weight: bold; margin-bottom: 10px;"></p>
-            <input type="text" id="bio-input" placeholder="Enter new personality..." style="width: 80%; margin-bottom: 15px;">
-            <br>
-            <button onclick="saveBio()" style="background: #a2d2ff; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer;">Save Changes</button>
+
+    <!-- OKNO PRE ÚPRAVU BIO  -->
+    <div id="bio-modal" class="modal">
+        <div class="chat-box" style="height: auto; margin-top: 150px;">
+            <div style="padding: 15px; background: #c8b6ff; color: white; display: flex; justify-content: space-between; font-weight: bold;">
+                <span>Update Personality</span>
+                <span onclick="closeBioModal()" style="cursor:pointer">✕</span>
+            </div>
+            <div style="padding: 25px; text-align: left;">
+                <label id="bio-target-name" style="display: block; margin-bottom: 10px; font-size: 14px; color: #666;"></label>
+                <input type="text" id="bio-input" placeholder="e.g. you are a helpful nerd" style="width: 100%; box-sizing: border-box; margin-bottom: 20px; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
+                <button onclick="saveBio()" class="btn-save">SAVE CHANGES</button>
+            </div>
         </div>
     </div>
-</div>
-    
-<script>
-    // TU JE HLAVNÁ OPRAVA: Premenná URL končí na /api
-    const URL = "https://peakbackend-2.onrender.com/api"; 
-    let current = "";
 
-    async function start() {
-        try {
-            const res = await fetch(URL);
-            const data = await res.json();
-            const cont = document.getElementById('container');
-            cont.innerHTML = "";
-            data.students.forEach(s => {
-                const d = document.createElement('div');
-                d.className = 'card';
-                // SEM SME PRIDALI TLAČIDLÁ
-                d.innerHTML = `
-                    <img src="${s.image}">
-                    <h3>${s.name}</h3>
-                    <p>@${s.nickname}</p>
-                    <div style="margin-top: 10px;">
-                        <button onclick="openChat('${s.name}')" style="cursor:pointer; padding: 5px 10px; border-radius: 5px; border: none; background: #a2d2ff;">Chat</button>
-                        <button onclick="editBio(${s.id})" style="cursor:pointer; padding: 5px 10px; border-radius: 5px; border: none; background: #ddd;">Edit Bio</button>
-                    </div>
-                `;
-                // Odstránili sme d.onclick, aby sa chat neotváral kliknutím na hocikde na kartu
-                cont.appendChild(d);
-            });
-        } catch (e) {
-            console.error("Chyba načítania žiakov:", e);
+    <!-- --- 3. LOGIKA A KOMUNIKÁCIA SO SERVEROM (JAVASCRIPT) --- -->
+    <script>
+        const URL = "https://peakbackend-2.onrender.com/api"; 
+        let currentChatName = "";
+        let currentEditId = null;
+
+        // FUNKCIA 1: Načítanie všetkých študentov z databázy pri štarte
+        async function start() {
+            try {
+                const res = await fetch(URL);
+                const data = await res.json();
+                const cont = document.getElementById('container');
+                cont.innerHTML = ""; // Vymazať loading text
+                
+                data.students.forEach(s => {
+                    const d = document.createElement('div');
+                    d.className = 'card';
+                    d.innerHTML = `
+                        <img src="${s.image}">
+                        <h3>${s.name}</h3>
+                        <p style="color: #888; font-size: 0.9em; margin-bottom: 15px;">@${s.nickname}</p>
+                        <div style="display: flex; gap: 5px; justify-content: center;">
+                            <button class="btn-chat" onclick="openChat('${s.name}')">Chat</button>
+                            <button class="btn-edit" onclick="openBioModal(${s.id}, '${s.name}')">Edit Bio</button>
+                        </div>
+                    `;
+                    cont.appendChild(d);
+                });
+            } catch (e) {
+                document.getElementById('container').innerHTML = "Failed to connect to backend... 🔧";
+            }
         }
-    }
 
-    function openChat(name) {
-        current = name;
-        document.getElementById('chat-name').innerText = name;
-        document.getElementById('msgs').innerHTML = `<div class="m ai">Hi, here ${name}. Watcha want?</div>`;
-        document.getElementById('chat-modal').style.display = 'block';
-    }
-
-    function closeChat() { document.getElementById('chat-modal').style.display = 'none'; }
-
-    async function send() {
-        const inp = document.getElementById('inp');
-        const txt = inp.value;
-        if(!txt) return;
-        const box = document.getElementById('msgs');
-        box.innerHTML += `<div class="m user">${txt}</div>`;
-        inp.value = "";
-        
-        try {
-            const res = await fetch(`${URL}/chat`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name: current, message: txt})
-            });
-            const data = await res.json();
-            box.innerHTML += `<div class="m ai">${data.reply}</div>`;
-        } catch (e) {
-            box.innerHTML += `<div class="m ai">Server neodpovedá... 🔧</div>`;
+        // FUNKCIA 2: Otvorenie chatu
+        function openChat(name) {
+            currentChatName = name;
+            document.getElementById('chat-name').innerText = "Chat with " + name;
+            document.getElementById('msgs').innerHTML = `<div class="m ai">Hi! I'm ${name}. How are you today?</div>`;
+            document.getElementById('chat-modal').style.display = 'block';
         }
-        box.scrollTop = box.scrollHeight;
-    }
 
-    async function editBio(id) {
-    const newBio = prompt("Write new bio for this classmate:");
-    if (newBio) {
-        await fetch("https://peakbackend-2.onrender.com/api/update_bio", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: id, bio: newBio })
-        });
-        alert("Bio updated! Refresh the page.");
-        location.reload(); // Stránka sa obnoví a načíta nové dáta
-    }
-}
+        function closeChat() { document.getElementById('chat-modal').style.display = 'none'; }
 
-    start();
-</script>
+        // FUNKCIA 3: Posielanie správy na AI Backend
+        async function send() {
+            const inp = document.getElementById('inp');
+            const txt = inp.value;
+            if(!txt) return;
+
+            const box = document.getElementById('msgs');
+            box.innerHTML += `<div class="m user">${txt}</div>`; // Pridá tvoju správu do okna
+            inp.value = "";
+            box.scrollTop = box.scrollHeight; // Posunúť chat dole
+            
+            try {
+                const res = await fetch(`${URL}/chat`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({name: currentChatName, message: txt})
+                });
+                const data = await res.json();
+                box.innerHTML += `<div class="m ai">${data.reply}</div>`; // Pridá odpoveď od AI
+            } catch (e) {
+                box.innerHTML += `<div class="m ai">My brain is lagging... check connection.</div>`;
+            }
+            box.scrollTop = box.scrollHeight;
+        }
+
+        // FUNKCIA 4: Úprava dát v databáze
+        function openBioModal(id, name) {
+            currentEditId = id;
+            document.getElementById('bio-target-name').innerText = "New personality for " + name + ":";
+            document.getElementById('bio-input').value = "";
+            document.getElementById('bio-modal').style.display = 'block';
+        }
+
+        function closeBioModal() { document.getElementById('bio-modal').style.display = 'none'; }
+
+        async function saveBio() {
+            const newBio = document.getElementById('bio-input').value;
+            if (!newBio) return;
+
+            try {
+                const res = await fetch(`${URL}/update_bio`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id: currentEditId, bio: newBio })
+                });
+                
+                if(res.ok) {
+                    alert("Personality reprogrammed! 🧠✨");
+                    closeBioModal();
+                    start(); // Refreshni kartičky, aby sme videli zmenu (voliteľné)
+                }
+            } catch (e) {
+                alert("Database update failed.");
+            }
+        }
+
+        // Spustiť načítanie dát pri otvorení stránky
+        start();
+    </script>
 </body>
 </html>
