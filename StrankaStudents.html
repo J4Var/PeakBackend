@@ -131,11 +131,11 @@
                     d.className = 'card';
                     d.innerHTML = `
                         <img src="${s.image}">
-                        <h3>${s.name}</h3>
+                        <h3>${s.name} ${s.surname}</h3>
                         <p style="color: #888; font-size: 0.9em; margin-bottom: 15px;">@${s.nickname}</p>
                         <div style="display: flex; gap: 5px; justify-content: center;">
                             <button class="btn-chat" onclick="openChat('${s.name}')">Chat</button>
-                            <button class="btn-edit" onclick="openBioModal(${s.id}, '${s.name}', '${s.bio ? s.bio.replace(/'/g, "\\'") : ''}')">Edit Bio</button>
+                            <button class="btn-edit" onclick="openBioModal(${s.id}, '${s.name} ${s.surname}', '${s.bio ? s.bio.replace(/'/g, "\\'") : ''}')">Edit Bio</button>
                         </div>
                     `;
                     cont.appendChild(d);
