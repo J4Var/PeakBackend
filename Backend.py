@@ -8,10 +8,9 @@ from groq import Groq
 app = Flask(__name__)
 CORS(app)
 
-# Inicializácia Groq
+# --- KONFIGURÁCIA ---
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
-# Funkcia na pripojenie k databáze
 def get_db_connection():
     conn = psycopg2.connect(
         user="embodiment_of_perfection_user",
@@ -23,31 +22,47 @@ def get_db_connection():
     )
     return conn
 
+# --- Bubble sorter >:}
+def bubble_sort_students(students_list):
+    n = len(students_list)
+    swapped = True
+    while swapped:
+        swapped = False
+        for i in range(n - 1):
+            prvy = (students_list[i]["name"] + " " + students_list[i]["surname"]).lower()
+            druhy = (students_list[i+1]["name"] + " " + students_list[i+1]["surname"]).lower()
+            
+            if prvy > druhy:
+                students_list[i], students_list[i + 1] = students_list[i + 1], students_list[i]
+                swapped = True
+    return students_list
+
+# --- API CESTY ---
+
 @app.route('/api')
 def get_all_students():
     try:
         conn = get_db_connection()
-        # RealDictCursor vráti dáta ako slovník (JSON friendly), nie ako zoznam čísel
         cur = conn.cursor(cursor_factory=RealDictCursor)
-        cur.execute('SELECT id, name, surname, nickname, bio, image FROM students ORDER BY id;')
+        cur.execute('SELECT id, name, surname, nickname, bio, image FROM students;')
         students = cur.fetchall()
         cur.close()
         conn.close()
-        return jsonify({"students": students})
+
+        # TU VOLÁME TVOJ ALGORITMUS pred odoslaním dát
+        sorted_students = bubble_sort_students(students)
+
+        return jsonify({"students": sorted_students})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-def bubble_sort():
-    
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
     try:
         data = request.json
-        meno = data.get('name', 'Spolužiak')
+        meno = data.get('name', 'Classmate')
         sprava = data.get('message', '')
 
-        # Hľadáme bio študenta v databáze
         conn = get_db_connection()
         cur = conn.cursor(cursor_factory=RealDictCursor)
         cur.execute('SELECT bio FROM students WHERE name = %s LIMIT 1;', (meno,))
@@ -68,7 +83,7 @@ def chat():
         return jsonify({"reply": completion.choices[0].message.content})
     except Exception as e:
         print(f"Chyba pri chate: {e}")
-        return jsonify({"reply": "momentálne mi to nemyslí... 🔧"}), 500
+        return jsonify({"reply": "My brain is lagging... 🔧"}), 500
 
 @app.route('/api/update_bio', methods=['POST'])
 def update_bio():
