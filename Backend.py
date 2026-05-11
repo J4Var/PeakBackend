@@ -37,7 +37,8 @@ def get_all_students():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-def bubble_sort 
+def bubble_sort():
+    
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
