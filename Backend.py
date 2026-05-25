@@ -22,7 +22,7 @@ def get_db_connection():
     )
     return conn
 
-# --- TVOJ BUBBLE SORTER >:} ---
+# --- TVOJ BUBBLE SORTER (ROZŠÍRENÝ O NICKNAME) ---
 def bubble_sort_students(students_list, sort_by="name"):
     n = len(students_list)
     swapped = True
@@ -30,16 +30,22 @@ def bubble_sort_students(students_list, sort_by="name"):
     while swapped:
         swapped = False
         for i in range(n - 1):
-            # Ak triedime podla mena, porovnavame primarne "name surname"
+            # 1. Možnosť: Triedenie podľa mena (Meno + Priezvisko)
             if sort_by == "name":
                 prvy = (students_list[i]["name"] + " " + students_list[i]["surname"]).lower()
                 druhy = (students_list[i+1]["name"] + " " + students_list[i+1]["surname"]).lower()
-            # Ak triedime podla priezviska, porovnavame primarne "surname name"
-            else:
+            
+            # 2. Možnosť: Triedenie podľa priezviska (Priezvisko + Meno)
+            elif sort_by == "surname":
                 prvy = (students_list[i]["surname"] + " " + students_list[i]["name"]).lower()
                 druhy = (students_list[i+1]["surname"] + " " + students_list[i+1]["name"]).lower()
             
-            # Ak je aktualny vacsi, prichadza swap prvkov
+            # 3. Možnosť: Triedenie podľa prezývky (Nickname)
+            else:
+                prvy = str(students_list[i]["nickname"]).lower()
+                druhy = str(students_list[i+1]["nickname"]).lower()
+            
+            # Ak je predchádzajúci v abecede ďalej ako nasledujúci, prehodíme ich
             if prvy > druhy:
                 students_list[i], students_list[i + 1] = students_list[i + 1], students_list[i]
                 swapped = True
@@ -51,7 +57,7 @@ def bubble_sort_students(students_list, sort_by="name"):
 @app.route('/api')
 def get_all_students():
     try:
-        # Zistíme z URL požiadavky, ako chce užívateľ triediť (?sort=name alebo ?sort=surname)
+        # Prečítame si z adresy, podľa čoho chceme triediť (predvolené je 'name')
         sort_by = request.args.get('sort', 'name')
         
         conn = get_db_connection()
@@ -61,7 +67,7 @@ def get_all_students():
         cur.close()
         conn.close()
 
-        # Tu spúšťame tvoj Bubble Sorter a odovzdávame mu kritérium triedenia
+        # Spustíme Bubble Sort podľa vybraného parametra
         sorted_students = bubble_sort_students(students, sort_by)
 
         return jsonify({"students": sorted_students})
