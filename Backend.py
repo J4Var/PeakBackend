@@ -22,19 +22,28 @@ def get_db_connection():
     )
     return conn
 
-# --- Bubble sorter >:}
-def bubble_sort_students(students_list):
+# --- TVOJ BUBBLE SORTER >:} ---
+def bubble_sort_students(students_list, sort_by="name"):
     n = len(students_list)
     swapped = True
+    
     while swapped:
         swapped = False
         for i in range(n - 1):
-            prvy = (students_list[i]["name"] + " " + students_list[i]["surname"]).lower()
-            druhy = (students_list[i+1]["name"] + " " + students_list[i+1]["surname"]).lower()
+            # Ak triedime podla mena, porovnavame primarne "name surname"
+            if sort_by == "name":
+                prvy = (students_list[i]["name"] + " " + students_list[i]["surname"]).lower()
+                druhy = (students_list[i+1]["name"] + " " + students_list[i+1]["surname"]).lower()
+            # Ak triedime podla priezviska, porovnavame primarne "surname name"
+            else:
+                prvy = (students_list[i]["surname"] + " " + students_list[i]["name"]).lower()
+                druhy = (students_list[i+1]["surname"] + " " + students_list[i+1]["name"]).lower()
             
+            # Ak je aktualny vacsi, prichadza swap prvkov
             if prvy > druhy:
                 students_list[i], students_list[i + 1] = students_list[i + 1], students_list[i]
                 swapped = True
+                
     return students_list
 
 # --- API CESTY ---
@@ -42,6 +51,9 @@ def bubble_sort_students(students_list):
 @app.route('/api')
 def get_all_students():
     try:
+        # Zistíme z URL požiadavky, ako chce užívateľ triediť (?sort=name alebo ?sort=surname)
+        sort_by = request.args.get('sort', 'name')
+        
         conn = get_db_connection()
         cur = conn.cursor(cursor_factory=RealDictCursor)
         cur.execute('SELECT id, name, surname, nickname, bio, image FROM students;')
@@ -49,8 +61,8 @@ def get_all_students():
         cur.close()
         conn.close()
 
-        # TU VOLÁME TVOJ ALGORITMUS pred odoslaním dát
-        sorted_students = bubble_sort_students(students)
+        # Tu spúšťame tvoj Bubble Sorter a odovzdávame mu kritérium triedenia
+        sorted_students = bubble_sort_students(students, sort_by)
 
         return jsonify({"students": sorted_students})
     except Exception as e:
