@@ -84,7 +84,8 @@
     
     <div style="margin-bottom: 20px;">
         <button onclick="start('name')" style="padding: 10px 15px; background: white; border-radius: 10px; font-weight: bold; margin-right: 5px;">Sort by Name</button>
-        <button onclick="start('surname')" style="padding: 10px 15px; background: white; border-radius: 10px; font-weight: bold;">Sort by Surname</button>
+        <button onclick="start('surname')" style="padding: 10px 15px; background: white; border-radius: 10px; font-weight: bold; margin-right: 5px;">Sort by Surname</button>
+        <button onclick="start('nickname')" style="padding: 10px 15px; background: white; border-radius: 10px; font-weight: bold;">Sort by Nickname</button>
     </div>
 
     <div id="container" class="student-list"></div>
@@ -121,7 +122,7 @@
         let currentChatName = "";
         let currentEditId = null;
 
-        // Funkcia posiela query parameter na backend: napr. ?sort=name alebo ?sort=surname
+        // Funkcia posiela požiadavku na backend s parametrom ?sort=name, ?sort=surname alebo ?sort=nickname
         async function start(sortBy = 'name') {
             try {
                 const res = await fetch(`${URL}?sort=${sortBy}`);
@@ -215,7 +216,7 @@
             }
         }
 
-        // Predvolené načítanie na začiatku
+        // Prvé načítanie pri otvorení stránky (predvolené podľa mena)
         start('name');
     </script>
 </body>
